@@ -595,14 +595,6 @@ if __name__ == "__main__":
     parser.add_argument("--var", default=False, action="store_true")
     args = parser.parse_args()
     
-    args.distributed = args.world_size > 1 or args.multiprocessing_distributed
-    ngpus_per_node = torch.cuda.device_count()
-
-    if args.multiprocessing_distributed:
-        args.world_size=ngpus_per_node*args.world_size
-        mp.spawn(main_worker,nprocs=ngpus_per_node,args=(ngpus_per_node,args))
-    else:
-        main_worker(args.gpu,ngpus_per_node,args)
 
     if args.dset == "office-home":
         names = ["Art", "Clipart", "Product", "Real_World"]
